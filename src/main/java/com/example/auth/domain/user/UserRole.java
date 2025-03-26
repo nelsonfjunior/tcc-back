@@ -1,5 +1,8 @@
 package com.example.auth.domain.user;
 
+import lombok.Getter;
+
+@Getter
 public enum UserRole {
     ADMIN("admin"),
     USER("user");
@@ -10,7 +13,4 @@ public enum UserRole {
         this.role = role;
     }
 
-    public String getRole(){
-        return role;
-    }
 }
