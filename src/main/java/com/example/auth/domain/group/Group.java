@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +31,11 @@ public class Group {
     private String image_name;
     private byte[] image;
 
+    @ManyToOne
+    private User adm;
+
     @ManyToMany(mappedBy = "groups")
-    private List<User> adm;
+    private List<User> users;
 
     @OneToMany
     private List<Publish> publishs;
