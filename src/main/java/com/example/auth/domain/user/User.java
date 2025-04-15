@@ -50,10 +50,10 @@ public class User implements UserDetails {
     )
     private List<Group> groups;
     
-    @OneToMany
+    @OneToMany(mappedBy = "author")
     private List<Publish> publishs;
 
-    @OneToMany
+    @OneToMany(mappedBy = "author")
     private List<Commentary> commentaries;
 
     public User(String name, String login, String password, UserRole role){
