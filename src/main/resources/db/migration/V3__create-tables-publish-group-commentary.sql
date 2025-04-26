@@ -7,9 +7,9 @@ CREATE TABLE groups (
     adm_id VARCHAR(36) REFERENCES users(id) NOT NULL
 );
 
-CREATE TABLE users_groups (
-    group_id VARCHAR(36) REFERENCES groups(id) NOT NULL,
-    user_id VARCHAR(36) REFERENCES users(id) NOT NULL
+CREATE TABLE user_group (
+    group_id VARCHAR(36) REFERENCES groups(id),
+    user_id VARCHAR(36) REFERENCES users(id)
 );
 
 CREATE TABLE publish (
@@ -18,7 +18,7 @@ CREATE TABLE publish (
     image BYTEA NOT NULL,
     when_sent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     author_id VARCHAR(36) REFERENCES users(id) NOT NULL,
-    group_id VARCHAR(36) REFERENCES groups(id) NOT NULL
+    groups_id VARCHAR(36) REFERENCES groups(id) NOT NULL
 );
 
 
@@ -26,6 +26,6 @@ CREATE TABLE commentary (
     id VARCHAR(36) PRIMARY KEY,
     content TEXT NOT NULL,
     when_sent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    user_id VARCHAR(36) REFERENCES users(id) NOT NULL,
+    author_id VARCHAR(36) REFERENCES users(id) NOT NULL,
     publish_id VARCHAR(36) REFERENCES publish(id) NOT NULL
 );
