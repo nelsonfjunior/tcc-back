@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.example.auth.domain.group.Group;
 
 @Repository
-public interface GroupRepository extends JpaRepository<Group, UUID> {
-    
+public interface GroupRepository extends JpaRepository<Group, String> {
+
 }
