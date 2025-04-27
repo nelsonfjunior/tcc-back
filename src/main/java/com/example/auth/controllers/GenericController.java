@@ -1,6 +1,5 @@
 package com.example.auth.controllers;
 
-import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.auth.services.GenericServiceTypes;
 
 import java.util.List;
-import java.util.UUID;
 
 @Validated
 @RestController
@@ -33,7 +31,7 @@ public abstract class GenericController<TEntity, TResponse, TRequest> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TResponse> findById(@PathVariable UUID id) {
+    public ResponseEntity<TResponse> findById(@PathVariable String id) {
         return ResponseEntity.status(HttpStatus.OK).body(genericService.findById(id));
     }
 
@@ -43,17 +41,19 @@ public abstract class GenericController<TEntity, TResponse, TRequest> {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TResponse> update(@PathVariable @Positive UUID id, @RequestBody TRequest entity) {
+    public ResponseEntity<TResponse> update(@PathVariable String id, @RequestBody TRequest entity) {
         return ResponseEntity.status(HttpStatus.OK).body(genericService.update(id, entity));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> remove(@PathVariable UUID id) {
-        genericService.remove(id);
-        if (genericService.findById(id) == null) {
-            return ResponseEntity.status(HttpStatus.OK).body("Excluído");
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Registro não pôde ser excluído");
+    public ResponseEntity<String> remove(@PathVariable String id) {
+        TResponse res = genericService.findById(id);
+
+        if(res == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado");
         }
+
+        genericService.remove(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Registro removido com sucesso");
     }
 }

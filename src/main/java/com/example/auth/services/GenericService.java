@@ -5,19 +5,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.auth.exceptions.PadraoException;
 import com.example.auth.mapper.GenericMapper;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
-public abstract class GenericService<TEntity, TResponse, TRequest, RepositorioGenerics extends JpaRepository<TEntity, UUID>>
+public abstract class GenericService<TEntity, TResponse, TRequest, RepositorioGenerics extends JpaRepository<TEntity, String>>
         implements GenericServiceTypes<TResponse, TRequest> {
 
     protected RepositorioGenerics repositoryGenerics;
     protected GenericMapper<TEntity, TResponse, TRequest> genericMapper;
 
-    protected GenericService(RepositorioGenerics repositoryGenerics, GenericMapper<TEntity, TResponse, TRequest> genericMapper) {
+    protected GenericService(RepositorioGenerics repositoryGenerics,
+            GenericMapper<TEntity, TResponse, TRequest> genericMapper) {
         this.repositoryGenerics = repositoryGenerics;
         this.genericMapper = genericMapper;
     }
@@ -30,10 +31,10 @@ public abstract class GenericService<TEntity, TResponse, TRequest, RepositorioGe
     }
 
     @Override
-    public TResponse findById(UUID id) {
+    public TResponse findById(String id) {
         return repositoryGenerics.findById(id)
                 .map(genericMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException("Não encontrado"));
+                .orElseThrow(() -> new PadraoException("Registro não encontrado"));
     }
 
     @Override
@@ -43,18 +44,19 @@ public abstract class GenericService<TEntity, TResponse, TRequest, RepositorioGe
     }
 
     @Override
-    public TResponse update(UUID id, TRequest request) {
+    public TResponse update(String id, TRequest request) {
         try {
-            TEntity entity = repositoryGenerics.findById(id).orElseThrow(() -> new RuntimeException("erro"));
+            TEntity entity = repositoryGenerics.findById(id).orElseThrow(() -> new PadraoException("Registro não encontrado"));
             entity = genericMapper.toEntity(request);
             return genericMapper.toDTO(repositoryGenerics.save(entity));
         } catch (Exception e) {
+            System.out.println(e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao atualizar entidade", e);
         }
     }
 
     @Override
-    public void remove(UUID id) {
+    public void remove(String id) {
         repositoryGenerics.deleteById(id);
     }
 }
