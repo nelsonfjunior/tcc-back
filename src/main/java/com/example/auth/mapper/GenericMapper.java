@@ -20,4 +20,12 @@ public interface GenericMapper<TEntity, TResponse, TRequest> {
             throw new RuntimeException("Erro ao converter MultipartFile para byte[]", e);
         }
     }
+
+    default byte[] base64ToBytes(String base64) {
+        if (base64 == null || base64.isEmpty()) {
+            return null;
+        }
+        String pureBase64 = base64.contains(",") ? base64.split(",")[1] : base64; // Remove prefixo "data:image/png;base64,"
+        return Base64.getDecoder().decode(pureBase64);
+    }
 }
