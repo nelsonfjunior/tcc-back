@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.auth.domain.group.Group;
 import com.example.auth.domain.group.GroupRequestDTO;
 import com.example.auth.domain.group.GroupResponseDTO;
+import com.example.auth.domain.publish.PublishRequestDTO;
+import com.example.auth.exceptions.PadraoException;
 import com.example.auth.services.GenericServiceTypes;
 import com.example.auth.services.GroupService;
 
@@ -37,4 +39,16 @@ public class GroupController extends GenericController<Group, GroupResponseDTO, 
     public ResponseEntity<GroupResponseDTO> update(@PathVariable String id, @ModelAttribute GroupRequestDTO req) {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupService.update(id, req));
     }
+    
+    @PostMapping("/publish")
+    public ResponseEntity<String> savePublish(@ModelAttribute PublishRequestDTO req) {
+        try {
+            groupService.savePublish(req);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Publicação criada com sucesso");
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new PadraoException("Erro ao criar publicação, tente novamente.");
+        }
+    }
+    
 }

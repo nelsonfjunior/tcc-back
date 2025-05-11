@@ -18,7 +18,7 @@ CREATE TABLE publish (
     image BYTEA NOT NULL,
     when_sent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     author_id VARCHAR(36) REFERENCES users(id) NOT NULL,
-    groups_id VARCHAR(36) REFERENCES groups(id) NOT NULL
+    group_id VARCHAR(36) REFERENCES groups(id) NOT NULL
 );
 
 

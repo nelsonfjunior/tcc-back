@@ -29,6 +29,7 @@ public class Publish {
     private String id;
     private String description;
     private LocalDateTime whenSent;
+    private byte[] image;
     
     @ManyToOne
     private User author;
@@ -36,6 +37,6 @@ public class Publish {
     @OneToMany
     private List<Commentary> commentaries;
 
-    @OneToMany 
-    private List<Group> groups;
+    @ManyToOne 
+    private Group group;
 }

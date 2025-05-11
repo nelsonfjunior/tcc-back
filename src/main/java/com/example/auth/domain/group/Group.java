@@ -37,6 +37,6 @@ public class Group {
     @ManyToMany(mappedBy = "groups")
     private List<User> users;
 
-    @OneToMany(mappedBy = "groups")
+    @OneToMany(mappedBy = "group")
     private List<Publish> publishs;
 }
