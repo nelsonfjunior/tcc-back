@@ -1,5 +1,7 @@
 package com.example.auth.domain.group;
 
+import java.util.List;
+
 import com.example.auth.domain.user.UserResponseDTO;
 
 public record GroupResponseDTO(
@@ -9,5 +11,5 @@ public record GroupResponseDTO(
         String image,
         String image_name,
         String name,
-        UserResponseDTO[] users) {
+        List<UserResponseDTO> users) {
 }

@@ -55,11 +55,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author")
     private List<Commentary> commentaries;
 
-    public User(String name, String login, String password, UserRole role) {
+    public User(String name, String login, String password, UserRole role, byte[] image) {
         this.name = name;
         this.login = login;
         this.password = password;
         this.role = role;
+        this.image = image;
     }
 
     @Override

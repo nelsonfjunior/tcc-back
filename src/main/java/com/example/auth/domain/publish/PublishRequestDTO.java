@@ -6,6 +6,7 @@ import com.example.auth.domain.group.Group;
 import com.example.auth.domain.user.User;
 
 public record PublishRequestDTO(
+    String id,
     MultipartFile image,
     String description,
     User author,

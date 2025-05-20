@@ -20,7 +20,8 @@ public class GroupService extends GenericService<Group, GroupResponseDTO, GroupR
     @Autowired
     private PublishRepository publishRepository;
 
-    @Autowired PublishMapper publishMapper;
+    @Autowired 
+    private PublishMapper publishMapper;
 
     protected GroupService(GroupRepository repositoryGenerics, GroupMapper genericMapper) {
         super(repositoryGenerics, genericMapper);
